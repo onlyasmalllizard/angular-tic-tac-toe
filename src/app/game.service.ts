@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Tile } from './tile';
 
 @Injectable({
   providedIn: 'root',
@@ -12,5 +13,10 @@ export class GameService {
     this.player === 'x' ? (this.player = 'o') : (this.player = 'x');
   }
 
-  fillTile() {}
+  fillTile(tile: Tile) {
+    if (!tile.filled) {
+      tile.value = this.player;
+      tile.filled = true;
+    }
+  }
 }

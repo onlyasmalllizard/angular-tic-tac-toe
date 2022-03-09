@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { TileComponent } from '../tile/tile.component';
+import { Tile } from '../tile';
 
 @Component({
   selector: 'app-grid',
@@ -7,8 +7,17 @@ import { TileComponent } from '../tile/tile.component';
   styleUrls: ['./grid.component.scss'],
 })
 export class GridComponent implements OnInit {
-  tiles: TileComponent[] = new Array(9);
+  tiles: Tile[] = [];
+  size = 9;
   constructor() {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.generateTiles();
+  }
+
+  generateTiles() {
+    for (let i = 0; i < this.size; i++) {
+      this.tiles.push({ value: ' ', filled: false });
+    }
+  }
 }

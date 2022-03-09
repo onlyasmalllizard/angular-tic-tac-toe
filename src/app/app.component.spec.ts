@@ -1,10 +1,14 @@
 import { TestBed } from '@angular/core/testing';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { AppComponent } from './app.component';
+import { GameModule } from './game/game.module';
 
 describe('AppComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [AppComponent],
+      imports: [GameModule],
+      schemas: [NO_ERRORS_SCHEMA],
     }).compileComponents();
   });
 

@@ -9,14 +9,15 @@ export class GameService {
 
   constructor() {}
 
-  switchPlayer() {
+  switchPlayer(): void {
     this.player === 'x' ? (this.player = 'o') : (this.player = 'x');
   }
 
-  fillTile(tile: Tile) {
+  fillTile(tile: Tile): void {
     if (!tile.filled) {
       tile.value = this.player;
       tile.filled = true;
+      this.switchPlayer();
     }
   }
 }

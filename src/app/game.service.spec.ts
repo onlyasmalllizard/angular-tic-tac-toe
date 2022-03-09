@@ -39,4 +39,13 @@ describe('GameService', () => {
     expect(tile.value).toBe('o');
     expect(tile.filled).toBe(true);
   });
+
+  it('should update player upon changing a tile from unfilled to filled', () => {
+    const currentPlayer = service.player;
+    const tile: Tile = { value: ' ', filled: false };
+
+    service.fillTile(tile);
+
+    expect(service.player).not.toBe(currentPlayer);
+  });
 });

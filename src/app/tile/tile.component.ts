@@ -13,4 +13,8 @@ export class TileComponent implements OnInit {
   constructor(private gameService: GameService) {}
 
   ngOnInit(): void {}
+
+  selectTile(): void {
+    this.gameService.fillTile(this.info!);
+  }
 }

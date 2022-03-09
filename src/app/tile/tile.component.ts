@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { Tile } from '../tile';
+import { GameService } from '../game.service';
 
 @Component({
   selector: 'app-tile',
@@ -6,10 +8,9 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./tile.component.scss'],
 })
 export class TileComponent implements OnInit {
-  filled = false;
-  value: ' ' | 'x' | 'o' = ' ';
+  @Input() info?: Tile;
 
-  constructor() {}
+  constructor(private gameService: GameService) {}
 
   ngOnInit(): void {}
 }

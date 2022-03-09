@@ -1,1 +1,3 @@
-<button type="button" class="tile">{{ value | uppercase }}</button>
+<button *ngIf="info" type="button" class="tile">
+  {{ info.value | uppercase }}
+</button>

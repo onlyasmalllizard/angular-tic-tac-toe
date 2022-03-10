@@ -43,9 +43,28 @@ describe('GameService', () => {
     const currentPlayer = service.player;
     const tile: Tile = { value: ' ', filled: false };
 
-    service.fillTile(tile);
+    service.playTurn(tile);
 
     expect(service.player).not.toBe(currentPlayer);
+  });
+
+  it('should not switch player if the game has been won', () => {
+    const fillTile = jest.spyOn(service, 'fillTile');
+    const checkForWinner = jest.spyOn(service, 'checkForWinner');
+
+    checkForWinner.mockImplementation(() => {
+      return [0, 1, 2];
+    });
+
+    const currentPlayer = service.player;
+    const tile: Tile = { value: ' ', filled: false };
+
+    service.playTurn(tile);
+
+    expect(service.player).toBe(currentPlayer);
+
+    fillTile.mockRestore();
+    checkForWinner.mockRestore();
   });
 
   it('should return the winning tiles when a player has won', () => {

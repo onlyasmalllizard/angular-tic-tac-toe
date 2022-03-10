@@ -31,6 +31,14 @@ export class GameService {
     if (!tile.filled) {
       tile.value = this.player;
       tile.filled = true;
+    }
+  }
+
+  playTurn(tile: Tile) {
+    this.fillTile(tile);
+
+    // Array hardcoded in until playerMove storage is implemented
+    if (!this.checkForWinner([0, 0])) {
       this.switchPlayer();
     }
   }

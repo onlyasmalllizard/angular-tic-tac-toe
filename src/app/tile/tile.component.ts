@@ -15,6 +15,6 @@ export class TileComponent implements OnInit {
   ngOnInit(): void {}
 
   selectTile(): void {
-    this.gameService.fillTile(this.info!);
+    this.gameService.playTurn(this.info!);
   }
 }

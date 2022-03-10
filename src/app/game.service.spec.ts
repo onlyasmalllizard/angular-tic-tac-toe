@@ -16,10 +16,10 @@ describe('GameService', () => {
 
   it('should switch player from x to o and back', () => {
     service.switchPlayer();
-    expect(service.player).toBe('o');
+    expect(service.currentPlayer).toBe('o');
 
     service.switchPlayer();
-    expect(service.player).toBe('x');
+    expect(service.currentPlayer).toBe('x');
   });
 
   it('should fill an empty tile correctly and update its value', () => {
@@ -40,12 +40,12 @@ describe('GameService', () => {
   });
 
   it('should update player upon changing a tile from unfilled to filled', () => {
-    const currentPlayer = service.player;
+    const currentPlayer = service.currentPlayer;
     const tile: Tile = { value: ' ', filled: false };
 
     service.playTurn(tile);
 
-    expect(service.player).not.toBe(currentPlayer);
+    expect(service.currentPlayer).not.toBe(currentPlayer);
   });
 
   it('should not switch player if the game has been won', () => {
@@ -56,12 +56,12 @@ describe('GameService', () => {
       return [0, 1, 2];
     });
 
-    const currentPlayer = service.player;
+    const currentPlayer = service.currentPlayer;
     const tile: Tile = { value: ' ', filled: false };
 
     service.playTurn(tile);
 
-    expect(service.player).toBe(currentPlayer);
+    expect(service.currentPlayer).toBe(currentPlayer);
 
     fillTile.mockRestore();
     checkForWinner.mockRestore();
@@ -77,5 +77,21 @@ describe('GameService', () => {
     const movesWithoutWin = [1, 3, 6, 8];
     const noWinState = service.checkForWinner(movesWithoutWin);
     expect(noWinState).toBe(null);
+  });
+
+  it(`should add the array index of selected tile to the player's moves`, () => {
+    const move = service.tiles[5];
+
+    service.recordMove(move);
+
+    expect(service.playerMoves[service.currentPlayer]).toContain(5);
+  });
+
+  it('should not add rubbish data to playerMoves', () => {
+    const move: Tile = { value: ' ', filled: false };
+
+    service.recordMove(move);
+
+    expect(service.playerMoves[service.currentPlayer]).not.toContain(-1);
   });
 });

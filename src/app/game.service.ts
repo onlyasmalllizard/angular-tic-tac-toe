@@ -5,7 +5,12 @@ import { Tile } from './tile';
   providedIn: 'root',
 })
 export class GameService {
-  player: 'x' | 'o' = 'x';
+  currentPlayer: 'x' | 'o' = 'x';
+  playerMoves: { x: number[]; o: number[] } = {
+    x: [],
+    o: [],
+  };
+
   tiles: Tile[] = Array.from(new Array(9), () => {
     return { value: ' ', filled: false };
   });
@@ -24,21 +29,31 @@ export class GameService {
   constructor() {}
 
   switchPlayer(): void {
-    this.player === 'x' ? (this.player = 'o') : (this.player = 'x');
+    this.currentPlayer === 'x'
+      ? (this.currentPlayer = 'o')
+      : (this.currentPlayer = 'x');
   }
 
   fillTile(tile: Tile): void {
     if (!tile.filled) {
-      tile.value = this.player;
+      tile.value = this.currentPlayer;
       tile.filled = true;
     }
   }
 
-  playTurn(tile: Tile) {
-    this.fillTile(tile);
+  recordMove(move: Tile) {
+    const index = this.tiles.findIndex((tile) => tile === move);
 
-    // Array hardcoded in until playerMove storage is implemented
-    if (!this.checkForWinner([0, 0])) {
+    if (index >= 0) {
+      this.playerMoves[this.currentPlayer].push(index);
+    }
+  }
+
+  playTurn(move: Tile) {
+    this.fillTile(move);
+    this.recordMove(move);
+
+    if (!this.checkForWinner(this.playerMoves[this.currentPlayer])) {
       this.switchPlayer();
     }
   }

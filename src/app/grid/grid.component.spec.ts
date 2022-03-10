@@ -1,16 +1,22 @@
+import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { NO_ERRORS_SCHEMA } from '@angular/core';
-
 import { GridComponent } from './grid.component';
+import { Tile } from '../tile';
+import { GameModule } from '../game/game.module';
+
+@Component({ selector: 'app-tile', template: '' })
+class TileStubComponent {
+  @Input() info?: Tile;
+}
 
 describe('GridComponent', () => {
   let component: GridComponent;
   let fixture: ComponentFixture<GridComponent>;
 
-  beforeEach(async () => {
+  beforeAll(async () => {
     await TestBed.configureTestingModule({
-      declarations: [GridComponent],
-      schemas: [NO_ERRORS_SCHEMA],
+      declarations: [GridComponent, TileStubComponent],
+      imports: [GameModule],
     }).compileComponents();
   });
 

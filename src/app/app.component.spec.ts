@@ -1,14 +1,21 @@
+import { Component, NgModule } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { AppComponent } from './app.component';
-import { GameModule } from './game/game.module';
+
+@Component({ selector: 'app-grid', template: '' })
+class MockGridComponent {}
+
+@NgModule({
+  declarations: [MockGridComponent],
+  exports: [MockGridComponent],
+})
+class MockGameModule {}
 
 describe('AppComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [AppComponent],
-      imports: [GameModule],
-      schemas: [NO_ERRORS_SCHEMA],
+      imports: [MockGameModule],
     }).compileComponents();
   });
 

@@ -6,22 +6,20 @@ import { Tile } from './tile';
 })
 export class GameService {
   player: 'x' | 'o' = 'x';
-  winningCombinations = {
-    rows: [
-      [0, 1, 2],
-      [3, 4, 5],
-      [6, 7, 8],
-    ],
-    columns: [
-      [0, 3, 6],
-      [1, 4, 7],
-      [2, 5, 8],
-    ],
-    diagonals: [
-      [0, 4, 8],
-      [2, 4, 6],
-    ],
-  };
+  tiles: Tile[] = Array.from(new Array(9), () => {
+    return { value: ' ', filled: false };
+  });
+
+  winningCombinations = [
+    [0, 1, 2],
+    [3, 4, 5],
+    [6, 7, 8],
+    [0, 3, 6],
+    [1, 4, 7],
+    [2, 5, 8],
+    [0, 4, 8],
+    [2, 4, 6],
+  ];
 
   constructor() {}
 
@@ -35,5 +33,26 @@ export class GameService {
       tile.filled = true;
       this.switchPlayer();
     }
+  }
+
+  checkForWinner(playerMoves: number[]): [number, number, number] | null {
+    let winningCombination = null;
+    let isWinningCombination = false;
+
+    this.winningCombinations.forEach((combination) => {
+      isWinningCombination = true;
+
+      combination.forEach((number) => {
+        if (!playerMoves.includes(number)) {
+          isWinningCombination = false;
+        }
+      });
+
+      if (isWinningCombination) {
+        winningCombination = combination;
+      }
+    });
+
+    return winningCombination;
   }
 }

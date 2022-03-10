@@ -47,4 +47,16 @@ describe('GameService', () => {
 
     expect(service.player).not.toBe(currentPlayer);
   });
+
+  it('should return the winning tiles when a player has won', () => {
+    const movesWithWin = [2, 3, 4, 6, 8];
+    const expected = [2, 4, 6];
+
+    const winState = service.checkForWinner(movesWithWin);
+    expect(winState).toStrictEqual(expected);
+
+    const movesWithoutWin = [1, 3, 6, 8];
+    const noWinState = service.checkForWinner(movesWithoutWin);
+    expect(noWinState).toBe(null);
+  });
 });

@@ -29,8 +29,4 @@ describe('GridComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
-
-  it('should fill the tiles array with the correct number of tiles', () => {
-    expect(component.tiles.length).toBe(component.size);
-  });
 });

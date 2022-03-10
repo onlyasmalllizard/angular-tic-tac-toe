@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { GameService } from '../game.service';
 import { Tile } from '../tile';
 
 @Component({
@@ -7,17 +8,9 @@ import { Tile } from '../tile';
   styleUrls: ['./grid.component.scss'],
 })
 export class GridComponent implements OnInit {
-  tiles: Tile[] = [];
-  size = 9;
-  constructor() {}
+  tiles: Tile[] = this.gameService.tiles;
 
-  ngOnInit(): void {
-    this.generateTiles();
-  }
+  constructor(private gameService: GameService) {}
 
-  generateTiles() {
-    for (let i = 0; i < this.size; i++) {
-      this.tiles.push({ value: ' ', filled: false });
-    }
-  }
+  ngOnInit(): void {}
 }

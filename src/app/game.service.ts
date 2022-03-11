@@ -5,6 +5,7 @@ import { Tile } from './tile';
   providedIn: 'root',
 })
 export class GameService {
+  gameWon = false;
   currentPlayer: 'x' | 'o' = 'x';
   playerMoves: { x: number[]; o: number[] } = {
     x: [],
@@ -41,7 +42,7 @@ export class GameService {
     }
   }
 
-  recordMove(move: Tile) {
+  recordMove(move: Tile): void {
     const index = this.tiles.findIndex((tile) => tile === move);
 
     if (index >= 0) {
@@ -49,13 +50,31 @@ export class GameService {
     }
   }
 
-  playTurn(move: Tile) {
-    this.fillTile(move);
-    this.recordMove(move);
+  playTurn(move: Tile): void {
+    if (!this.isGameOver()) {
+      this.fillTile(move);
+      this.recordMove(move);
+    }
 
     if (!this.checkForWinner(this.playerMoves[this.currentPlayer])) {
       this.switchPlayer();
     }
+  }
+
+  isGameOver(): boolean {
+    // Check whether any moves can be made
+    const unfilledTiles = this.tiles.filter((tile) => !tile.filled);
+
+    // Check whether someone has won
+
+    if (
+      unfilledTiles.length > 0 &&
+      !this.checkForWinner(this.playerMoves[this.currentPlayer])
+    ) {
+      return false;
+    }
+
+    return true;
   }
 
   checkForWinner(playerMoves: number[]): [number, number, number] | null {

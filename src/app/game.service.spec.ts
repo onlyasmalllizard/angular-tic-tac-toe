@@ -94,4 +94,21 @@ describe('GameService', () => {
 
     expect(service.playerMoves[service.currentPlayer]).not.toContain(-1);
   });
+
+  it('should not allow additional moves to be made if the game has been won', () => {
+    const fillTile = jest.spyOn(service, 'fillTile');
+    const recordMove = jest.spyOn(service, 'recordMove');
+
+    const checkForWinner = jest.spyOn(service, 'checkForWinner');
+    checkForWinner.mockImplementation(() => {
+      return [0, 1, 2];
+    });
+
+    service.playTurn({ value: ' ', filled: false });
+
+    expect(fillTile).not.toHaveBeenCalled();
+    expect(recordMove).not.toHaveBeenCalled();
+
+    checkForWinner.mockRestore();
+  });
 });

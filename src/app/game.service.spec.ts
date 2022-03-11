@@ -23,7 +23,7 @@ describe('GameService', () => {
   });
 
   it('should fill an empty tile correctly and update its value', () => {
-    const tile: Tile = { value: ' ', filled: false };
+    const tile: Tile = { value: ' ', filled: false, winningTile: false };
 
     service.fillTile(tile);
 
@@ -32,7 +32,7 @@ describe('GameService', () => {
   });
 
   it('should leave the tile unchanged if sent a filled tile', () => {
-    const tile: Tile = { value: 'o', filled: true };
+    const tile: Tile = { value: 'o', filled: true, winningTile: false };
 
     service.fillTile(tile);
     expect(tile.value).toBe('o');
@@ -41,7 +41,7 @@ describe('GameService', () => {
 
   it('should update player upon changing a tile from unfilled to filled', () => {
     const currentPlayer = service.currentPlayer;
-    const tile: Tile = { value: ' ', filled: false };
+    const tile: Tile = { value: ' ', filled: false, winningTile: false };
 
     service.playTurn(tile);
 
@@ -54,7 +54,7 @@ describe('GameService', () => {
     isGameOver.mockReturnValue(true);
 
     const currentPlayer = service.currentPlayer;
-    const tile: Tile = { value: ' ', filled: false };
+    const tile: Tile = { value: ' ', filled: false, winningTile: false };
 
     service.playTurn(tile);
 
@@ -72,7 +72,7 @@ describe('GameService', () => {
   });
 
   it('should not add rubbish data to playerMoves', () => {
-    const move: Tile = { value: ' ', filled: false };
+    const move: Tile = { value: ' ', filled: false, winningTile: false };
 
     service.recordMove(move);
 
@@ -86,7 +86,7 @@ describe('GameService', () => {
     const isGameOver = jest.spyOn(service, 'isGameOver');
     isGameOver.mockReturnValue(true);
 
-    service.playTurn({ value: ' ', filled: false });
+    service.playTurn({ value: ' ', filled: false, winningTile: false });
 
     expect(fillTile).not.toHaveBeenCalled();
     expect(recordMove).not.toHaveBeenCalled();

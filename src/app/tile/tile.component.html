@@ -1,3 +1,9 @@
-<button *ngIf="info" type="button" class="tile" (click)="selectTile()">
+<button
+  *ngIf="info"
+  type="button"
+  class="tile"
+  [ngClass]="{ winningTile: info.winningTile }"
+  (click)="selectTile()"
+>
   {{ info.value | uppercase }}
 </button>

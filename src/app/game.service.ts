@@ -13,7 +13,7 @@ export class GameService {
   };
 
   tiles: Tile[] = Array.from(new Array(9), () => {
-    return { value: ' ', filled: false };
+    return { value: ' ', filled: false, winningTile: false };
   });
 
   winningCombination?: [number, number, number];
@@ -48,7 +48,9 @@ export class GameService {
       this.recordMove(move);
     }
 
-    if (!this.isGameOver()) {
+    if (this.isGameOver()) {
+      this.showWinningTiles();
+    } else {
       this.switchPlayer();
     }
   }
@@ -91,5 +93,13 @@ export class GameService {
         this.winningCombination = combination;
       }
     });
+  }
+
+  showWinningTiles() {
+    if (this.winningCombination) {
+      this.winningCombination.forEach(
+        (index) => (this.tiles[index].winningTile = true)
+      );
+    }
   }
 }

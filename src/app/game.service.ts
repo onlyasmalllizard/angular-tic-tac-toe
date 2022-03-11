@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Tile } from './tile';
+import { WINNING_COMBINATIONS } from './winningCombinations';
 
 @Injectable({
   providedIn: 'root',
 })
 export class GameService {
-  gameWon = false;
   currentPlayer: 'x' | 'o' = 'x';
   playerMoves: { x: number[]; o: number[] } = {
     x: [],
@@ -16,16 +16,8 @@ export class GameService {
     return { value: ' ', filled: false };
   });
 
-  winningCombinations = [
-    [0, 1, 2],
-    [3, 4, 5],
-    [6, 7, 8],
-    [0, 3, 6],
-    [1, 4, 7],
-    [2, 5, 8],
-    [0, 4, 8],
-    [2, 4, 6],
-  ];
+  winningCombination?: [number, number, number];
+  winningCombinations: [number, number, number][] = WINNING_COMBINATIONS;
 
   constructor() {}
 
@@ -56,7 +48,7 @@ export class GameService {
       this.recordMove(move);
     }
 
-    if (!this.checkForWinner(this.playerMoves[this.currentPlayer])) {
+    if (!this.isGameOver()) {
       this.switchPlayer();
     }
   }
@@ -64,22 +56,27 @@ export class GameService {
   isGameOver(): boolean {
     // Check whether any moves can be made
     const unfilledTiles = this.tiles.filter((tile) => !tile.filled);
+    const spaceForMoreMoves = unfilledTiles.length > 0;
 
-    // Check whether someone has won
-
-    if (
-      unfilledTiles.length > 0 &&
-      !this.checkForWinner(this.playerMoves[this.currentPlayer])
-    ) {
+    if (spaceForMoreMoves && !this.isWinner()) {
       return false;
     }
 
     return true;
   }
 
-  checkForWinner(playerMoves: number[]): [number, number, number] | null {
-    let winningCombination = null;
+  isWinner(): boolean {
+    this.identifyWinner();
+    if (this.winningCombination) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  identifyWinner(): void {
     let isWinningCombination = false;
+    const playerMoves = this.playerMoves[this.currentPlayer];
 
     this.winningCombinations.forEach((combination) => {
       isWinningCombination = true;
@@ -91,10 +88,8 @@ export class GameService {
       });
 
       if (isWinningCombination) {
-        winningCombination = combination;
+        this.winningCombination = combination;
       }
     });
-
-    return winningCombination;
   }
 }

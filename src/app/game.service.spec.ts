@@ -48,13 +48,10 @@ describe('GameService', () => {
     expect(service.currentPlayer).not.toBe(currentPlayer);
   });
 
-  it('should not switch player if the game has been won', () => {
-    const fillTile = jest.spyOn(service, 'fillTile');
-    const checkForWinner = jest.spyOn(service, 'checkForWinner');
+  it('should not switch player if the game is over', () => {
+    const isGameOver = jest.spyOn(service, 'isGameOver');
 
-    checkForWinner.mockImplementation(() => {
-      return [0, 1, 2];
-    });
+    isGameOver.mockReturnValue(true);
 
     const currentPlayer = service.currentPlayer;
     const tile: Tile = { value: ' ', filled: false };
@@ -63,20 +60,7 @@ describe('GameService', () => {
 
     expect(service.currentPlayer).toBe(currentPlayer);
 
-    fillTile.mockRestore();
-    checkForWinner.mockRestore();
-  });
-
-  it('should return the winning tiles when a player has won', () => {
-    const movesWithWin = [2, 3, 4, 6, 8];
-    const expected = [2, 4, 6];
-
-    const winState = service.checkForWinner(movesWithWin);
-    expect(winState).toStrictEqual(expected);
-
-    const movesWithoutWin = [1, 3, 6, 8];
-    const noWinState = service.checkForWinner(movesWithoutWin);
-    expect(noWinState).toBe(null);
+    isGameOver.mockRestore();
   });
 
   it(`should add the array index of selected tile to the player's moves`, () => {
@@ -99,16 +83,14 @@ describe('GameService', () => {
     const fillTile = jest.spyOn(service, 'fillTile');
     const recordMove = jest.spyOn(service, 'recordMove');
 
-    const checkForWinner = jest.spyOn(service, 'checkForWinner');
-    checkForWinner.mockImplementation(() => {
-      return [0, 1, 2];
-    });
+    const isGameOver = jest.spyOn(service, 'isGameOver');
+    isGameOver.mockReturnValue(true);
 
     service.playTurn({ value: ' ', filled: false });
 
     expect(fillTile).not.toHaveBeenCalled();
     expect(recordMove).not.toHaveBeenCalled();
 
-    checkForWinner.mockRestore();
+    isGameOver.mockRestore();
   });
 });

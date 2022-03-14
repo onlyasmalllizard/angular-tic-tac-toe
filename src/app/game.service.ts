@@ -95,7 +95,7 @@ export class GameService {
     });
   }
 
-  showWinningTiles() {
+  showWinningTiles(): void {
     if (this.winningCombination) {
       this.winningCombination.forEach(
         (index) => (this.tiles[index].winningTile = true)

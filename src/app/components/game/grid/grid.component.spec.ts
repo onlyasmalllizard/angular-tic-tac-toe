@@ -1,8 +1,8 @@
 import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { GridComponent } from './grid.component';
-import { Tile } from '../tile';
-import { GameModule } from '../game/game.module';
+import { Tile } from '../../../models/tile.model';
+import { GameModule } from '../game.module';
 
 @Component({ selector: 'app-tile', template: '' })
 class TileStubComponent {

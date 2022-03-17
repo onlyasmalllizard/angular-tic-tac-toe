@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { GameService } from '../game.service';
-import { Tile } from '../tile';
+import { GameService } from '../../../services/game/game.service';
+import { Tile } from '../../../models/tile.model';
 
 @Component({
   selector: 'app-grid',

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Tile } from './tile';
-import { WINNING_COMBINATIONS } from './winningCombinations';
+import { Tile } from '../../models/tile.model';
+import { WINNING_COMBINATIONS } from '../../winningCombinations';
 
 @Injectable({
   providedIn: 'root',
